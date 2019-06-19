@@ -22,6 +22,17 @@ handleAddTodo(todo) {
     })
 }
 
+removeTodo(index) {
+  if(window.confirm('Are you sure you want to delete it?')) {
+    this.setState({
+      /* Recoge todos los elementos del estado, menos el que el usuario seleccionó */
+      todos: this.state.todos.filter((e, i) => {
+        return i !== index
+      })
+    });
+  }
+}
+
 render() {
   const todos = this.state.todos.map((todo,i) => {
     return (
@@ -36,6 +47,14 @@ render() {
           <div className="card-body">
             <p>{todo.description}</p>
             <p><mark>{todo.responsible}</mark></p>
+          </div>
+          <div className="card-footer">
+            <button
+              className="btn btn-danger"
+              onClick={this.removeTodo.bind(this, i)}
+            >
+            Delete
+            </button>
           </div>
         </div>
       </div>
