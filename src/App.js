@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Navigation from './components/Navigation';
+import TodoForm from './components/TodoForm';
 import { todos } from './todos.json';
 
 class App extends Component {
@@ -10,13 +11,21 @@ class App extends Component {
     super();
     this.state = {
       todos: todos
-    }
+    };
+    this.handleAddTodo = this.handleAddTodo.bind(this);
   }
+
+handleAddTodo(todo) {
+    /* Agregando estado actual de las tareas con la nueva tarea */
+    this.setState({
+      todos: [...this.state.todos, todo]
+    })
+}
 
 render() {
   const todos = this.state.todos.map((todo,i) => {
     return (
-      <div className="col-md-4">
+      <div className="col-md-4" key={i}>
         <div className="card mt-4">
           <div className="card-header">
             <h3>{todo.title}</h3>
@@ -37,10 +46,19 @@ render() {
       <Navigation title="Aplicación de tareas" length={this.state.todos.length}/>
       <div className="container">
         <div className="row mt-4">
-          { todos }
+          <div className="col-md-3">
+
+            <TodoForm onAddTodo ={this.handleAddTodo}/>
+            <img src={logo} className="App-logo" alt="logo" />
+          </div>
+          <div className="col-md-9">
+            <div className="row">
+              { todos }
+            </div>
+          </div>
         </div>
       </div>
-      <img src={logo} className="App-logo" alt="logo" />
+
     </div>
     );
   }
